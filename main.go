@@ -12,7 +12,7 @@ func main() {
 	go tailLogFile(filePath)
 	go browerCron(30 * time.Second)
 
-	// 暴露Prometheus的metrics接口
+	// 暴露 Prometheus 的 metrics 接口
 	http.Handle("/metrics", promhttp.Handler())
 	log.Printf("Prometheus exporter is running on %s/metrics\n", port)
 	log.Fatal(http.ListenAndServe(port, nil))
