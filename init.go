@@ -10,7 +10,7 @@ import (
 var (
 	ProofRate = prometheus.NewGauge(
 		prometheus.GaugeOpts{
-			Name: "proof_Rate",
+			Name: "proof_rate",
 			Help: "The proof rate of the current machine.",
 		},
 	)

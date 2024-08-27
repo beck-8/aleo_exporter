@@ -97,6 +97,10 @@ func tailLogFile(logFilePath string) {
 						rateString = strings.Split(line, " ")[4]
 					}
 
+					if rateString == "" {
+						continue
+					}
+
 					rateNum, err := strconv.ParseUint(rateString, 10, 64)
 					if err != nil {
 						log.Println(err)
