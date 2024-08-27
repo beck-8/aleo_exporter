@@ -54,22 +54,21 @@ func tailLogFile(logFilePath string) {
 					line := scanner.Text()
 
 					/*
-						+-------------------------------------------------------------------------------------------------------+
-						|                                                 OULA                                                  |
-						+=======================================================================================================+
-						|  GPU     | ProofRate            | Valid | Power       | Memory             | Device                   |
-						| ---------+----------------------+-------+-------------+--------------------+------------------------- |
-						|  0       | 95444                | 0     | 313 W/320 W | 9216 MiB/10240 MiB | NVIDIA GeForce RTX 3080  |
-						|  1       | 95600                | 0     | 296 W/320 W | 9216 MiB/10240 MiB | NVIDIA GeForce RTX 3080  |
-						|  2       | 96705                | 0     | 305 W/320 W | 9216 MiB/10240 MiB | NVIDIA GeForce RTX 3080  |
-						|  3       | 98567                | 0     | 311 W/320 W | 9216 MiB/10240 MiB | NVIDIA GeForce RTX 3080  |
-						|  4       | 91490                | 0     | 298 W/320 W | 9216 MiB/10240 MiB | NVIDIA GeForce RTX 3080  |
-						|  5       | 96573                | 0     | 301 W/320 W | 9216 MiB/10240 MiB | NVIDIA GeForce RTX 3080  |
-						|  6       | 98966                | 0     | 280 W/320 W | 9216 MiB/10240 MiB | NVIDIA GeForce RTX 3080  |
-						|  7       | 100050               | 0     | 282 W/320 W | 9216 MiB/10240 MiB | NVIDIA GeForce RTX 3080  |
-						|  Total   | 773395               | 0     |             |                    | Uptime  1521s            |
-						|  Version | fe7726a-2024-08-19-1 |       |             |                    |                          |
-						+-------------------------------------------------------------------------------------------------------+
+						+------------------------------------------------------------------------------------------+
+						|                                           OULA                                           |
+						+==========================================================================================+
+						|  GPU   | ProofRate | Valid | Power       | Memory             | Device                   |
+						| -------+-----------+-------+-------------+--------------------+------------------------- |
+						|  0     | 117028    | 0     | 312 W/320 W | 1008 MiB/10240 MiB | NVIDIA GeForce RTX 3080  |
+						|  1     | 116583    | 0     | 310 W/320 W | 1008 MiB/10240 MiB | NVIDIA GeForce RTX 3080  |
+						|  2     | 115021    | 0     | 311 W/320 W | 1008 MiB/10240 MiB | NVIDIA GeForce RTX 3080  |
+						|  3     | 118355    | 0     | 296 W/320 W | 1008 MiB/10240 MiB | NVIDIA GeForce RTX 3080  |
+						|  4     | 115778    | 0     | 294 W/320 W | 1008 MiB/10240 MiB | NVIDIA GeForce RTX 3080  |
+						|  5     | 117695    | 0     | 296 W/320 W | 1008 MiB/10240 MiB | NVIDIA GeForce RTX 3080  |
+						|  6     | 117500    | 0     | 277 W/320 W | 1008 MiB/10240 MiB | NVIDIA GeForce RTX 3080  |
+						|  7     | 117795    | 0     | 284 W/320 W | 1008 MiB/10240 MiB | NVIDIA GeForce RTX 3080  |
+						|  Total | 935755    | 0     |             |                    | Uptime  68415s           |
+						+------------------------------------------------------------------------------------------+
 												6bock
 						+-------------------------------------------------------------------------------------------+
 						| 2024-08-21T07:56:47                                                                       |
@@ -90,14 +89,14 @@ func tailLogFile(logFilePath string) {
 					var rateString string
 					if strings.Contains(line, "Total") && strings.Contains(line, "Uptime") {
 						// oula
-						rateString = strings.Split(line, " ")[6]
+						rateString = strings.TrimSpace(strings.Split(line, "|")[2])
 
 					} else if strings.Contains(line, "gpu[*]:") {
 						// 6block
 						rateString = strings.Split(line, " ")[4]
 					}
 
-					if rateString == "" {
+					if rateString == "" || rateString == "N/A" {
 						continue
 					}
 
