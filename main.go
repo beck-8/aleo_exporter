@@ -10,7 +10,9 @@ import (
 
 func main() {
 	go tailLogFile(filePath)
-	go browerCron(30 * time.Second)
+	if browserMetircs {
+		go browerCron(30 * time.Second)
+	}
 
 	// 暴露 Prometheus 的 metrics 接口
 	http.Handle("/metrics", promhttp.Handler())

@@ -32,7 +32,7 @@ func browerFind() {
 		"DelegatorsBond": 1086268622170798
 		}
 	*/
-	req1, err := http.NewRequest("GET", "https://testnetbeta.aleo123.io/api/v5/mainnetv0/validat/statistic", nil)
+	req1, err := http.NewRequest("GET", "https://mainnet.aleo123.io/api/v5/mainnet/validat/statistic", nil)
 	if err != nil {
 		log.Println("Error creating request:", err)
 		totalApiError.Inc()
@@ -82,7 +82,7 @@ func browerFind() {
 		"total_score2": "0"
 		}
 	*/
-	req2, err := http.NewRequest("GET", "https://testnetbeta.aleo123.io/api/v5/mainnetv0/power/all", nil)
+	req2, err := http.NewRequest("GET", "https://mainnet.aleo123.io/api/v5/mainnet/power/all", nil)
 	if err != nil {
 		fmt.Println("Error creating request:", err)
 		totalApiError.Inc()
@@ -151,7 +151,7 @@ func browerFind() {
 		  ]
 		}
 	*/
-	req3, err := http.NewRequest("GET", "https://testnetbeta.aleo123.io/api/v5/mainnetv0/blocks/list?page=0&page_size=1", nil)
+	req3, err := http.NewRequest("GET", "https://mainnet.aleo123.io/api/v5/mainnet/blocks/list?page=0&page_size=1", nil)
 	if err != nil {
 		fmt.Println("Error creating request:", err)
 		totalApiError.Inc()
@@ -191,7 +191,7 @@ func browerFind() {
 	}
 
 	// {"success":true,"count":0,"message":"","calls":305757,"program":534,"owner":219}
-	req4, err := http.NewRequest("GET", "https://testnetbeta.aleo123.io/api/v5/mainnetv0/programs/statistic", nil)
+	req4, err := http.NewRequest("GET", "https://mainnet.aleo123.io/api/v5/mainnet/programs/statistic", nil)
 	if err != nil {
 		fmt.Println("Error creating request:", err)
 		totalApiError.Inc()
@@ -224,7 +224,7 @@ func browerFind() {
 	}
 
 	// {"success":true,"count":0,"message":"","total":47,"new":29}
-	req5, err := http.NewRequest("GET", "https://testnetbeta.aleo123.io/api/v5/mainnetv0/miner/new/day", nil)
+	req5, err := http.NewRequest("GET", "https://mainnet.aleo123.io/api/v5/mainnet/miner/new/day", nil)
 	if err != nil {
 		fmt.Println("Error creating request:", err)
 		totalApiError.Inc()
