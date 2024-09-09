@@ -128,8 +128,8 @@ func tailLogFile(logFilePath string) {
 			}
 
 			// 处理日志被轮转的情况
-			if event.Op&fsnotify.Rename == fsnotify.Rename {
-				log.Println("Receive the rename operation")
+			if event.Has(fsnotify.Remove | fsnotify.Rename) {
+				log.Printf("Receive the %v operation", event.String())
 				file.Close()
 
 				// 等待新文件产生
