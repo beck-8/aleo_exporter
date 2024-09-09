@@ -84,7 +84,7 @@ func browerFind() {
 	*/
 	req2, err := http.NewRequest("GET", "https://mainnet.aleo123.io/api/v5/mainnet/power/all", nil)
 	if err != nil {
-		fmt.Println("Error creating request:", err)
+		log.Println("Error creating request:", err)
 		totalApiError.Inc()
 		return
 	}

@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/fsnotify/fsnotify"
 )
@@ -44,9 +45,9 @@ func tailLogFile(logFilePath string) {
 			if !ok {
 				return
 			}
-
 			// 当文件被修改时读取新增的日志行
 			if event.Op&fsnotify.Write == fsnotify.Write {
+				// log.Println("Receive the write operation")
 
 				scanner := bufio.NewScanner(file)
 
@@ -96,7 +97,10 @@ func tailLogFile(logFilePath string) {
 						rateString = strings.Split(line, " ")[4]
 					}
 
-					if rateString == "" || rateString == "N/A" {
+					if rateString == "" {
+						continue
+					} else if rateString == "N/A" {
+						ProofRate.Set(0)
 						continue
 					}
 
@@ -115,6 +119,28 @@ func tailLogFile(logFilePath string) {
 					log.Printf("读取日志文件时出错: %v", err)
 					totalLogError.Inc()
 				}
+
+				// 移动文件指针到文件末尾，处理日志被清空的情况
+				_, err = file.Seek(0, io.SeekEnd)
+				if err != nil {
+					log.Printf("无法移动到文件末尾: %v", err)
+				}
+			}
+
+			// 处理日志被轮转的情况
+			if event.Op&fsnotify.Rename == fsnotify.Rename {
+				log.Println("Receive the rename operation")
+				file.Close()
+
+				// 等待新文件产生
+				time.Sleep(1 * time.Second)
+
+				file, err = os.Open(logFilePath)
+				if err != nil {
+					log.Fatalf("无法打开日志文件: %v", err)
+				}
+				defer file.Close()
+
 			}
 		case err, ok := <-watcher.Errors:
 			if !ok {
