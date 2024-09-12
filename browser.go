@@ -120,6 +120,9 @@ func browerFind() {
 	if d, ok := result["reward_sum"].(float64); ok {
 		totalPuzzleRewards.Set(d)
 	}
+	if d, ok := result["reward"].(float64); ok {
+		puzzleRewards24h.Set(d)
+	}
 
 	/*
 		{
@@ -255,5 +258,40 @@ func browerFind() {
 
 	if d, ok := result["total"].(float64); ok {
 		networkMiners.Set(d)
+	}
+
+	{
+		req, err := http.NewRequest("GET", "https://api.aleo.info/?requestType=fetch", nil)
+		if err != nil {
+			fmt.Println("Error creating request:", err)
+			totalApiError.Inc()
+			return
+		}
+
+		resp, err := client.Do(req)
+		if err != nil {
+			log.Println("Error sending request:", err)
+			totalApiError.Inc()
+			return
+		}
+		defer resp.Body.Close()
+
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			log.Println("Error reading response body:", err)
+			totalApiError.Inc()
+			return
+
+		}
+		var result map[string]any
+		if err := json.Unmarshal(body, &result); err != nil {
+			log.Println("Error parsing JSON:", err)
+			totalApiError.Inc()
+			return
+		}
+		if d, ok := result["puzzle_reward_1M"].(float64); ok {
+			puzzleReward1M.Set(d / 1000000)
+
+		}
 	}
 }

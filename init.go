@@ -81,6 +81,16 @@ var (
 			Name: "total_api_error",
 		},
 	)
+	puzzleReward1M = prometheus.NewGauge(
+		prometheus.GaugeOpts{
+			Name: "puzzle_reward_1M",
+		},
+	)
+	puzzleRewards24h = prometheus.NewGauge(
+		prometheus.GaugeOpts{
+			Name: "puzzle_rewards_24h",
+		},
+	)
 )
 var port string
 var browserMetircs bool
@@ -118,6 +128,8 @@ func init() {
 			networkDelegators,
 			networkPrograms,
 			totalApiError,
+			puzzleReward1M,
+			puzzleRewards24h,
 		)
 	}
 
