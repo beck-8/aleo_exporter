@@ -286,12 +286,47 @@ func browerFind() {
 		var result map[string]any
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.Println("Error parsing JSON:", err)
+			log.Println(string(body))
 			totalApiError.Inc()
 			return
 		}
 		if d, ok := result["puzzle_reward_1M"].(float64); ok {
 			puzzleReward1M.Set(d / 1000000)
 
+		}
+	}
+	{
+		req, err := http.NewRequest("GET", "https://zk.work/api/aleo/miner/aleo197m30mqcetdlznkj0emydezmk8d2346x72udsetypaappnlek58sggqp4f/workerList?page=1&size=10&isActive=true&orderBy=currentHashRate&isAsc=false&nameKey=", nil)
+		if err != nil {
+			fmt.Println("Error creating request:", err)
+			totalApiError.Inc()
+			return
+		}
+
+		resp, err := client.Do(req)
+		if err != nil {
+			log.Println("Error sending request:", err)
+			totalApiError.Inc()
+			return
+		}
+		defer resp.Body.Close()
+
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			log.Println("Error reading response body:", err)
+			totalApiError.Inc()
+			return
+
+		}
+		var result map[string]any
+		if err := json.Unmarshal(body, &result); err != nil {
+			log.Println("Error parsing JSON:", err)
+			log.Println(string(body))
+			totalApiError.Inc()
+			return
+		}
+		if d, ok := result["data"].(map[string]any)["total"].(float64); ok {
+			zkWorkers.Set(d)
 		}
 	}
 }

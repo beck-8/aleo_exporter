@@ -91,6 +91,11 @@ var (
 			Name: "puzzle_rewards_24h",
 		},
 	)
+	zkWorkers = prometheus.NewGauge(
+		prometheus.GaugeOpts{
+			Name: "zk_workers",
+		},
+	)
 )
 var port string
 var browserMetircs bool
@@ -130,6 +135,7 @@ func init() {
 			totalApiError,
 			puzzleReward1M,
 			puzzleRewards24h,
+			zkWorkers,
 		)
 	}
 
