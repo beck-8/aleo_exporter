@@ -96,6 +96,16 @@ var (
 			Name: "zk_workers",
 		},
 	)
+	totalStaked = prometheus.NewGauge(
+		prometheus.GaugeOpts{
+			Name: "total_staked",
+		},
+	)
+	totalEarnings = prometheus.NewGauge(
+		prometheus.GaugeOpts{
+			Name: "total_earnings",
+		},
+	)
 )
 var port string
 var browserMetircs bool
@@ -136,6 +146,8 @@ func init() {
 			puzzleReward1M,
 			puzzleRewards24h,
 			zkWorkers,
+			totalStaked,
+			totalEarnings,
 		)
 	}
 
