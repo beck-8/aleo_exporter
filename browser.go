@@ -260,41 +260,41 @@ func browerFind() {
 		networkMiners.Set(d)
 	}
 
-	{
-		req, err := http.NewRequest("GET", "https://api.aleo.info/?requestType=fetch", nil)
-		if err != nil {
-			fmt.Println("Error creating request:", err)
-			totalApiError.Inc()
-			return
-		}
+	// {
+	// 	req, err := http.NewRequest("GET", "https://api.aleo.info/?requestType=fetch", nil)
+	// 	if err != nil {
+	// 		fmt.Println("Error creating request:", err)
+	// 		totalApiError.Inc()
+	// 		return
+	// 	}
 
-		resp, err := client.Do(req)
-		if err != nil {
-			log.Println("Error sending request:", err)
-			totalApiError.Inc()
-			return
-		}
-		defer resp.Body.Close()
+	// 	resp, err := client.Do(req)
+	// 	if err != nil {
+	// 		log.Println("Error sending request:", err)
+	// 		totalApiError.Inc()
+	// 		return
+	// 	}
+	// 	defer resp.Body.Close()
 
-		body, err := io.ReadAll(resp.Body)
-		if err != nil {
-			log.Println("Error reading response body:", err)
-			totalApiError.Inc()
-			return
+	// 	body, err := io.ReadAll(resp.Body)
+	// 	if err != nil {
+	// 		log.Println("Error reading response body:", err)
+	// 		totalApiError.Inc()
+	// 		return
 
-		}
-		var result map[string]any
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.Println("Error parsing JSON:", err)
-			log.Println(string(body))
-			totalApiError.Inc()
-			return
-		}
-		if d, ok := result["puzzle_reward_1M"].(float64); ok {
-			puzzleReward1M.Set(d / 1000000)
+	// 	}
+	// 	var result map[string]any
+	// 	if err := json.Unmarshal(body, &result); err != nil {
+	// 		log.Println("Error parsing JSON:", err)
+	// 		log.Println(string(body))
+	// 		totalApiError.Inc()
+	// 		return
+	// 	}
+	// 	if d, ok := result["puzzle_reward_1M"].(float64); ok {
+	// 		puzzleReward1M.Set(d / 1000000)
 
-		}
-	}
+	// 	}
+	// }
 	{
 		req, err := http.NewRequest("GET", "https://zk.work/api/aleo/miner/aleo197m30mqcetdlznkj0emydezmk8d2346x72udsetypaappnlek58sggqp4f/workerList?page=1&size=10&isActive=true&orderBy=currentHashRate&isAsc=false&nameKey=", nil)
 		if err != nil {
@@ -330,7 +330,7 @@ func browerFind() {
 		}
 	}
 	{
-		req, err := http.NewRequest("GET", "https://api.aleo.info/address?a=aleo1ujvz478lfe29gypd8u0j5cjqcaqta0kxf79t6mmedve6qcweqyrqh7y9u8", nil)
+		req, err := http.NewRequest("GET", "https://vxb.ai/api/v5/mainnet/validat/validator/aleo1ujvz478lfe29gypd8u0j5cjqcaqta0kxf79t6mmedve6qcweqyrqh7y9u8", nil)
 		if err != nil {
 			fmt.Println("Error creating request:", err)
 			totalApiError.Inc()
@@ -359,10 +359,10 @@ func browerFind() {
 			totalApiError.Inc()
 			return
 		}
-		if d, ok := result["bond_state"].(map[string]any)["amount"].(float64); ok {
+		if d, ok := result["Info"].(map[string]any)["Delegate"].(float64); ok {
 			totalStaked.Set(d)
 		}
-		if d, ok := result["stake_reward"].(float64); ok {
+		if d, ok := result["Info"].(map[string]any)["TotalProfit"].(float64); ok {
 			totalEarnings.Set(d)
 		}
 	}
