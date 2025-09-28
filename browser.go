@@ -36,14 +36,12 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error creating request:", err)
 		totalApiError.Inc()
-		return
 	}
 
 	resp1, err := client.Do(req1)
 	if err != nil {
 		log.Println("Error sending request:", err)
 		totalApiError.Inc()
-		return
 	}
 	defer resp1.Body.Close()
 
@@ -51,14 +49,12 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error reading response body:", err)
 		totalApiError.Inc()
-		return
 
 	}
 	var result map[string]any
 	if err := json.Unmarshal(body1, &result); err != nil {
 		log.Println("Error parsing JSON:", err)
 		totalApiError.Inc()
-		return
 	}
 
 	if d, ok := result["Validators"].(float64); ok {
@@ -86,14 +82,12 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error creating request:", err)
 		totalApiError.Inc()
-		return
 	}
 
 	resp2, err := client.Do(req2)
 	if err != nil {
 		log.Println("Error sending request:", err)
 		totalApiError.Inc()
-		return
 	}
 	defer resp2.Body.Close()
 
@@ -101,14 +95,11 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error reading response body:", err)
 		totalApiError.Inc()
-		return
-
 	}
 
 	if err := json.Unmarshal(body2, &result); err != nil {
 		log.Println("Error parsing JSON:", err)
 		totalApiError.Inc()
-		return
 	}
 
 	if d, ok := result["power"].(float64); ok {
@@ -158,14 +149,12 @@ func browerFind() {
 	if err != nil {
 		fmt.Println("Error creating request:", err)
 		totalApiError.Inc()
-		return
 	}
 
 	resp3, err := client.Do(req3)
 	if err != nil {
 		log.Println("Error sending request:", err)
 		totalApiError.Inc()
-		return
 	}
 	defer resp3.Body.Close()
 
@@ -173,14 +162,11 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error reading response body:", err)
 		totalApiError.Inc()
-		return
-
 	}
 
 	if err := json.Unmarshal(body3, &result); err != nil {
 		log.Println("Error parsing JSON:", err)
 		totalApiError.Inc()
-		return
 	}
 
 	if d, ok := result["block_data"].([]any)[0].(map[string]any)["height"].(float64); ok {
@@ -198,14 +184,12 @@ func browerFind() {
 	if err != nil {
 		fmt.Println("Error creating request:", err)
 		totalApiError.Inc()
-		return
 	}
 
 	resp4, err := client.Do(req4)
 	if err != nil {
 		log.Println("Error sending request:", err)
 		totalApiError.Inc()
-		return
 	}
 	defer resp4.Body.Close()
 
@@ -213,14 +197,11 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error reading response body:", err)
 		totalApiError.Inc()
-		return
-
 	}
 
 	if err := json.Unmarshal(body4, &result); err != nil {
 		log.Println("Error parsing JSON:", err)
 		totalApiError.Inc()
-		return
 	}
 	if d, ok := result["program"].(float64); ok {
 		networkPrograms.Set(d)
@@ -231,14 +212,12 @@ func browerFind() {
 	if err != nil {
 		fmt.Println("Error creating request:", err)
 		totalApiError.Inc()
-		return
 	}
 
 	resp5, err := client.Do(req5)
 	if err != nil {
 		log.Println("Error sending request:", err)
 		totalApiError.Inc()
-		return
 	}
 	defer resp5.Body.Close()
 
@@ -246,68 +225,28 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error reading response body:", err)
 		totalApiError.Inc()
-		return
-
 	}
 
 	if err := json.Unmarshal(body5, &result); err != nil {
 		log.Println("Error parsing JSON:", err)
 		totalApiError.Inc()
-		return
 	}
 
 	if d, ok := result["total"].(float64); ok {
 		networkMiners.Set(d)
 	}
 
-	// {
-	// 	req, err := http.NewRequest("GET", "https://api.aleo.info/?requestType=fetch", nil)
-	// 	if err != nil {
-	// 		fmt.Println("Error creating request:", err)
-	// 		totalApiError.Inc()
-	// 		return
-	// 	}
-
-	// 	resp, err := client.Do(req)
-	// 	if err != nil {
-	// 		log.Println("Error sending request:", err)
-	// 		totalApiError.Inc()
-	// 		return
-	// 	}
-	// 	defer resp.Body.Close()
-
-	// 	body, err := io.ReadAll(resp.Body)
-	// 	if err != nil {
-	// 		log.Println("Error reading response body:", err)
-	// 		totalApiError.Inc()
-	// 		return
-
-	// 	}
-	// 	var result map[string]any
-	// 	if err := json.Unmarshal(body, &result); err != nil {
-	// 		log.Println("Error parsing JSON:", err)
-	// 		log.Println(string(body))
-	// 		totalApiError.Inc()
-	// 		return
-	// 	}
-	// 	if d, ok := result["puzzle_reward_1M"].(float64); ok {
-	// 		puzzleReward1M.Set(d / 1000000)
-
-	// 	}
-	// }
 	{
-		req, err := http.NewRequest("GET", "https://zk.work/api/aleo/miner/aleo197m30mqcetdlznkj0emydezmk8d2346x72udsetypaappnlek58sggqp4f/workerList?page=1&size=10&isActive=true&orderBy=currentHashRate&isAsc=false&nameKey=", nil)
+		req, err := http.NewRequest("GET", "https://api.aleo.info/?requestType=fetch", nil)
 		if err != nil {
 			fmt.Println("Error creating request:", err)
 			totalApiError.Inc()
-			return
 		}
 
 		resp, err := client.Do(req)
 		if err != nil {
 			log.Println("Error sending request:", err)
 			totalApiError.Inc()
-			return
 		}
 		defer resp.Body.Close()
 
@@ -315,7 +254,6 @@ func browerFind() {
 		if err != nil {
 			log.Println("Error reading response body:", err)
 			totalApiError.Inc()
-			return
 
 		}
 		var result map[string]any
@@ -323,7 +261,36 @@ func browerFind() {
 			log.Println("Error parsing JSON:", err)
 			log.Println(string(body))
 			totalApiError.Inc()
-			return
+		}
+		if d, ok := result["puzzle_reward_1M"].(float64); ok {
+			puzzleReward1M.Set(d / 1000000)
+
+		}
+	}
+	{
+		req, err := http.NewRequest("GET", "https://zk.work/api/aleo/miner/aleo197m30mqcetdlznkj0emydezmk8d2346x72udsetypaappnlek58sggqp4f/workerList?page=1&size=10&isActive=true&orderBy=currentHashRate&isAsc=false&nameKey=", nil)
+		if err != nil {
+			fmt.Println("Error creating request:", err)
+			totalApiError.Inc()
+		}
+
+		resp, err := client.Do(req)
+		if err != nil {
+			log.Println("Error sending request:", err)
+			totalApiError.Inc()
+		}
+		defer resp.Body.Close()
+
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			log.Println("Error reading response body:", err)
+			totalApiError.Inc()
+		}
+		var result map[string]any
+		if err := json.Unmarshal(body, &result); err != nil {
+			log.Println("Error parsing JSON:", err)
+			log.Println(string(body))
+			totalApiError.Inc()
 		}
 		if d, ok := result["data"].(map[string]any)["total"].(float64); ok {
 			zkWorkers.Set(d)
@@ -334,14 +301,12 @@ func browerFind() {
 		if err != nil {
 			fmt.Println("Error creating request:", err)
 			totalApiError.Inc()
-			return
 		}
 
 		resp, err := client.Do(req)
 		if err != nil {
 			log.Println("Error sending request:", err)
 			totalApiError.Inc()
-			return
 		}
 		defer resp.Body.Close()
 
@@ -349,7 +314,6 @@ func browerFind() {
 		if err != nil {
 			log.Println("Error reading response body:", err)
 			totalApiError.Inc()
-			return
 
 		}
 		var result map[string]any
@@ -357,7 +321,6 @@ func browerFind() {
 			log.Println("Error parsing JSON:", err)
 			log.Println(string(body))
 			totalApiError.Inc()
-			return
 		}
 		if d, ok := result["Info"].(map[string]any)["Delegate"].(float64); ok {
 			totalStaked.Set(d)
