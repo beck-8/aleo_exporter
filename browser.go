@@ -42,6 +42,7 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error sending request:", err)
 		totalApiError.Inc()
+		return
 	}
 	defer resp1.Body.Close()
 
@@ -49,12 +50,14 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error reading response body:", err)
 		totalApiError.Inc()
+		return
 
 	}
 	var result map[string]any
 	if err := json.Unmarshal(body1, &result); err != nil {
 		log.Println("Error parsing JSON:", err)
 		totalApiError.Inc()
+		return
 	}
 
 	if d, ok := result["Validators"].(float64); ok {
@@ -88,6 +91,7 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error sending request:", err)
 		totalApiError.Inc()
+		return
 	}
 	defer resp2.Body.Close()
 
@@ -95,11 +99,13 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error reading response body:", err)
 		totalApiError.Inc()
+		return
 	}
 
 	if err := json.Unmarshal(body2, &result); err != nil {
 		log.Println("Error parsing JSON:", err)
 		totalApiError.Inc()
+		return
 	}
 
 	if d, ok := result["power"].(float64); ok {
@@ -155,6 +161,7 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error sending request:", err)
 		totalApiError.Inc()
+		return
 	}
 	defer resp3.Body.Close()
 
@@ -162,11 +169,13 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error reading response body:", err)
 		totalApiError.Inc()
+		return
 	}
 
 	if err := json.Unmarshal(body3, &result); err != nil {
 		log.Println("Error parsing JSON:", err)
 		totalApiError.Inc()
+		return
 	}
 
 	if d, ok := result["block_data"].([]any)[0].(map[string]any)["height"].(float64); ok {
@@ -190,6 +199,7 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error sending request:", err)
 		totalApiError.Inc()
+		return
 	}
 	defer resp4.Body.Close()
 
@@ -197,11 +207,13 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error reading response body:", err)
 		totalApiError.Inc()
+		return
 	}
 
 	if err := json.Unmarshal(body4, &result); err != nil {
 		log.Println("Error parsing JSON:", err)
 		totalApiError.Inc()
+		return
 	}
 	if d, ok := result["program"].(float64); ok {
 		networkPrograms.Set(d)
@@ -225,11 +237,13 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error reading response body:", err)
 		totalApiError.Inc()
+		return
 	}
 
 	if err := json.Unmarshal(body5, &result); err != nil {
 		log.Println("Error parsing JSON:", err)
 		totalApiError.Inc()
+		return
 	}
 
 	if d, ok := result["total"].(float64); ok {
@@ -247,6 +261,7 @@ func browerFind() {
 		if err != nil {
 			log.Println("Error sending request:", err)
 			totalApiError.Inc()
+			return
 		}
 		defer resp.Body.Close()
 
@@ -254,6 +269,7 @@ func browerFind() {
 		if err != nil {
 			log.Println("Error reading response body:", err)
 			totalApiError.Inc()
+			return
 
 		}
 		var result map[string]any
@@ -261,6 +277,7 @@ func browerFind() {
 			log.Println("Error parsing JSON:", err)
 			log.Println(string(body))
 			totalApiError.Inc()
+			return
 		}
 		if d, ok := result["puzzle_reward_1M"].(float64); ok {
 			puzzleReward1M.Set(d / 1000000)
@@ -278,6 +295,7 @@ func browerFind() {
 		if err != nil {
 			log.Println("Error sending request:", err)
 			totalApiError.Inc()
+			return
 		}
 		defer resp.Body.Close()
 
@@ -285,12 +303,14 @@ func browerFind() {
 		if err != nil {
 			log.Println("Error reading response body:", err)
 			totalApiError.Inc()
+			return
 		}
 		var result map[string]any
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.Println("Error parsing JSON:", err)
 			log.Println(string(body))
 			totalApiError.Inc()
+			return
 		}
 		if d, ok := result["data"].(map[string]any)["total"].(float64); ok {
 			zkWorkers.Set(d)
@@ -314,13 +334,14 @@ func browerFind() {
 		if err != nil {
 			log.Println("Error reading response body:", err)
 			totalApiError.Inc()
-
+			return
 		}
 		var result map[string]any
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.Println("Error parsing JSON:", err)
 			log.Println(string(body))
 			totalApiError.Inc()
+			return
 		}
 		if d, ok := result["Info"].(map[string]any)["Delegate"].(float64); ok {
 			totalStaked.Set(d)
