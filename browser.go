@@ -45,7 +45,9 @@ func browerFind() {
 		return
 	}
 	defer resp1.Body.Close()
-
+	if resp1.StatusCode != 200 {
+		return
+	}
 	body1, err := io.ReadAll(resp1.Body)
 	if err != nil {
 		log.Println("Error reading response body:", err)
@@ -94,7 +96,9 @@ func browerFind() {
 		return
 	}
 	defer resp2.Body.Close()
-
+	if resp2.StatusCode != 200 {
+		return
+	}
 	body2, err := io.ReadAll(resp2.Body)
 	if err != nil {
 		log.Println("Error reading response body:", err)
@@ -164,7 +168,9 @@ func browerFind() {
 		return
 	}
 	defer resp3.Body.Close()
-
+	if resp3.StatusCode != 200 {
+		return
+	}
 	body3, err := io.ReadAll(resp3.Body)
 	if err != nil {
 		log.Println("Error reading response body:", err)
@@ -202,7 +208,9 @@ func browerFind() {
 		return
 	}
 	defer resp4.Body.Close()
-
+	if resp4.StatusCode != 200 {
+		return
+	}
 	body4, err := io.ReadAll(resp4.Body)
 	if err != nil {
 		log.Println("Error reading response body:", err)
@@ -232,7 +240,9 @@ func browerFind() {
 		totalApiError.Inc()
 	}
 	defer resp5.Body.Close()
-
+	if resp5.StatusCode != 200 {
+		return
+	}
 	body5, err := io.ReadAll(resp5.Body)
 	if err != nil {
 		log.Println("Error reading response body:", err)
@@ -264,7 +274,9 @@ func browerFind() {
 			return
 		}
 		defer resp.Body.Close()
-
+		if resp.StatusCode != 200 {
+			return
+		}
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {
 			log.Println("Error reading response body:", err)
@@ -299,6 +311,10 @@ func browerFind() {
 		}
 		defer resp.Body.Close()
 
+		if resp.StatusCode != 200 {
+			return
+		}
+
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {
 			log.Println("Error reading response body:", err)
@@ -329,6 +345,10 @@ func browerFind() {
 			totalApiError.Inc()
 		}
 		defer resp.Body.Close()
+
+		if resp.StatusCode != 200 {
+			return
+		}
 
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {
