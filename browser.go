@@ -238,6 +238,7 @@ func browerFind() {
 	if err != nil {
 		log.Println("Error sending request:", err)
 		totalApiError.Inc()
+		return
 	}
 	defer resp5.Body.Close()
 	if resp5.StatusCode != 200 {
@@ -343,6 +344,7 @@ func browerFind() {
 		if err != nil {
 			log.Println("Error sending request:", err)
 			totalApiError.Inc()
+			return
 		}
 		defer resp.Body.Close()
 
